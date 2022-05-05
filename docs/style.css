@@ -23,3 +23,8 @@ path {
     stroke: #fff;
     fill: grey;
 }
+
+#buttons{
+    text-align: center;
+    width: 80%;
+}
