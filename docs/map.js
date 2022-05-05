@@ -1,9 +1,11 @@
-var width = window.innerWidth,
-    height = 500;
+var scale = 0.8;
+
+var width = window.innerWidth * scale,
+    height = 500 * scale;
 
 var projection = d3.geoMercator()
     .center([20, 45])
-    .scale(800);
+    .scale(300);
     // .rotate([-180,0]);
 
 var svg = d3.select("#container").append("svg")

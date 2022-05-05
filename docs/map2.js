@@ -1,5 +1,5 @@
-var width2 = window.innerWidth,
-    height2 = 500;
+var width2 = window.innerWidth * scale,
+    height2 = 500 * scale;
 
 var projection2 = d3.geoMercator()
     .center([20, 45])
