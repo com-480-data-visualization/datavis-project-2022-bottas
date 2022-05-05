@@ -3,9 +3,23 @@
     align-items: center;
     justify-content: center;
 }
+#container2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 path {
     stroke: white;
     stroke-width: 0.25px;
-    fill: grey;
   }
+
+
+.country {
+    stroke: #fff;
+    fill: grey;
+}
+.country2 {
+    stroke: #fff;
+    fill: grey;
+}
