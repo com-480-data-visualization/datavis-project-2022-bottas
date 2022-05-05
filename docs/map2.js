@@ -1,17 +1,17 @@
-var width = window.innerWidth,
-    height = 500;
+var width2 = window.innerWidth,
+    height2 = 500;
 
-var projection = d3.geoMercator()
+var projection2 = d3.geoMercator()
     .center([20, 45])
     .scale(100);
     // .rotate([-180,0]);
 
 var svg2 = d3.select("#container2").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+    .attr("width", width2)
+    .attr("height", height2);
 
-var path = d3.geoPath()
-    .projection(projection);
+var path2 = d3.geoPath()
+    .projection(projection2);
 
 var g2 = svg2.append("g");
 
@@ -21,16 +21,16 @@ d3.json("world.json").then(function(topology) {
        .data(topojson.feature(topology, topology.objects.countries)
            .features)
        .enter().append("path")
-       .attr("d", path)
+       .attr("d", path2)
        .attr('class', 'country2');
 
 });
 
-var zoom = d3.zoom()
+var zoom2 = d3.zoom()
       .scaleExtent([1, 8])
       .on('zoom', function(event) {
           g2.selectAll('path')
            .attr('transform', event.transform);
 });
 
-svg2.call(zoom);
+svg2.call(zoom2);
