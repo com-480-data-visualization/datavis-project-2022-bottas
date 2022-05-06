@@ -21,4 +21,9 @@ svg_line.append("line").style("stroke", "black")
 svg_line.append("rectangle").attr("width", 700).attr("height", 300)
 .attr("style", "fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)");
 
+const brush = d3.brushX()
+.extent([[50, 0], [650, 250]]);
+
+svg_line.append("g").call(brush).call(brush.move, [[50, 0], [650, 250]]);
+
 
