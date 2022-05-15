@@ -36,4 +36,59 @@ var zoom = d3.zoom()
            .attr('transform', event.transform);
 });
 
+
+//sample places
+/*const markers = [
+    {lng: 9.083, lat: 42.149, name: "Corsica"}, // corsica
+    {lng: 7.26, lat: 43.71, name: "Nice"}, // nice
+    {lng: 2.349, lat: 48.864, name: "Paris"}, // Paris
+    {lng: -1.397, lat: 43.664, name: "Hossegor"}, // Hossegor
+    {lng: 3.075, lat: 50.640, name: "Lille"}, // Lille
+    {lng: -3.83, lat: 58, name: "Morlaix"}, // Morlaix
+  ];*/
+
+var markers = JSON.parse("hotel_loc.json")
+
+// create a tooltip
+const Tooltip = d3.select("container")
+    .append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 1)
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+
+// Three function that change the tooltip when user hover / move / leave a cell
+const mouseover = function(event, d) {
+Tooltip.style("opacity", 1)
+}
+var mousemove = function(event, d) {
+Tooltip
+    .html(d.Hotel_Name + "<br>" + "long: " + d.lng + "<br>" + "lat: " + d.lat)
+    .style("left", (event.x)/2 + "px")
+    .style("top", (event.y)/2 - 30 + "px")
+}
+var mouseleave = function(event, d) {
+Tooltip.style("opacity", 0)
+}
+
+// Add circles:
+svg
+    .selectAll("myCircles")
+    .data(markers)
+    .join("circle")
+        .attr("cx", d => projection([d.lng, d.lat])[0])
+        .attr("cy", d => projection([d.lng, d.lat])[1])
+        .attr("r", 14)
+        .attr("class", "circle")
+        .style("fill", "69b3a2")
+        .attr("stroke", "#69b3a2")
+        .attr("stroke-width", 3)
+        .attr("fill-opacity", .4)
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
+
 svg.call(zoom);

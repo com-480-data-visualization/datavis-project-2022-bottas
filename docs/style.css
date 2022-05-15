@@ -209,3 +209,8 @@ path {
     text-align: center;
     width: 80%;
 }
+
+.circle:hover{
+	stroke: black;
+	stroke-width: 4px;
+  }
