@@ -47,7 +47,9 @@ var zoom = d3.zoom()
     {lng: -3.83, lat: 58, name: "Morlaix"}, // Morlaix
   ];*/
 
-var markers = JSON.parse("hotel_loc.json")
+//const markers = JSON.parse("hotel_loc.json");
+
+console.log(hotel_locs);
 
 // create a tooltip
 const Tooltip = d3.select("container")
@@ -74,8 +76,25 @@ var mouseleave = function(event, d) {
 Tooltip.style("opacity", 0)
 }
 
+var hotel_locs = $.getJSON("hotel_loc.json", function(markers) {
+    svg.selectAll("myCircles")
+    .data(markers)
+    .join("circle")
+        .attr("cx", d => projection([d.lng, d.lat])[0])
+        .attr("cy", d => projection([d.lng, d.lat])[1])
+        .attr("r", 14)
+        .attr("class", "circle")
+        .style("fill", "69b3a2")
+        .attr("stroke", "#69b3a2")
+        .attr("stroke-width", 3)
+        .attr("fill-opacity", .4)
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave);
+});
+
 // Add circles:
-svg
+/*svg
     .selectAll("myCircles")
     .data(markers)
     .join("circle")
@@ -90,5 +109,6 @@ svg
     .on("mouseover", mouseover)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave)
+*/
 
 svg.call(zoom);
