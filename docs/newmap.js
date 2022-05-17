@@ -37,7 +37,7 @@ function getVisibleMarkers() {
 function onEachFeature(feature, layer) {
     // does this feature have a property named popupContent?
     if (feature.properties && feature.properties.name) {
-        layer.bindPopup(feature.properties.name);
+        layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+feature.properties.avg_score);
     }
 }
 
