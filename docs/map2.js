@@ -58,25 +58,50 @@ d3.json("countries.geojson").then(function(json) {
 });
 console.log(country_to_lonlat);
 
-const current_hotel = "Kube Hotel Ice Bar";
+const current_hotel = "Doubletree by Hilton London Kensington";
+
+var div = d3.select("body").append("div")
+     .attr("class", "tooltip-line")
+     .style("opacity", 0);
 
 d3.json('reviewer_nationalities.json').then(function(json) {
     current_hotel_lonlat = hotel_name_to_lonlat[current_hotel];
 
     json.forEach(function(d) {
         if (d.Hotel_Name == current_hotel) {
-            country_lonlat = country_to_lonlat[d.Reviewer_Nationality]
+            country_lonlat = country_to_lonlat[d.Reviewer_Nationality];
             svg2.append("line").attr("x1", projection2(country_lonlat)[0])
             .attr("y1", projection2(country_lonlat)[1])
             .attr("x2", projection2(current_hotel_lonlat)[0])
             .attr("y2", projection2(current_hotel_lonlat)[1])
-            .style('stroke', 'black').style('stroke-width', 0.5*d.Number);
-            console.log();
-            console.log(d.Number);            
+            .style('stroke', 'black').style('stroke-width', 0.1*d.Number)
+            .attr('id', d.Reviewer_Nationality).attr('no_reviewers', d.Number);
         }
+    });
+
+    let lines = svg2.selectAll('line');
+    
+    lines.on('mouseover', function (d, i) {
+        let line = d3.select(this);
+        console.log(d3.select(this).attr('no_reviewers'));
+        d3.select(this).transition()
+             .duration('50')
+             .attr('opacity', '.85');
+        div.transition()
+            .duration(50)
+            .style("opacity", 1);
+        div.html(this.id + ': ' + line.attr('no_reviewers')).style("left", (d.pageX + 10) + "px")
+        .style("top", (d.pageY - 15) + "px");
     })
-}
-)
+   .on('mouseout', function (d, i) {
+        d3.select(this).transition()
+             .duration('50')
+             .attr('opacity', '1');
+        div.transition()
+             .duration('50')
+             .style("opacity", 0);    
+});
+});
 
 // Zoom while keeping circles on same size
 var zoom2 = d3.zoom()
