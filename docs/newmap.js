@@ -34,16 +34,26 @@ function getVisibleMarkers() {
     if (visibles.length > 0) return(visibles);
 }
 
+function onEachFeature(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties && feature.properties.name) {
+        layer.bindPopup(feature.properties.name);
+    }
+}
 
 fetch("hotel_loc.geojson")
 .then(function(response) {
-return response.json();
+    return response.json();
 })
 .then(function(data) {
-// console.log(L.geoJSON(data));
-L.geoJSON(data).addTo(map);
-markerList = getVisibleMarkers();
+    console.log(L.geoJSON(data));
+    L.geoJSON(data,{
+        onEachFeature: onEachFeature
+    }).addTo(map);
+    markerList = getVisibleMarkers();
 });
+
+
 
 
 function getVisibleMarkerIDs(){
