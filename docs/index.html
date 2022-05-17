@@ -20,6 +20,15 @@
    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
    crossorigin=""></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!--New map-->
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+   integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+   crossorigin=""/>
+   <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+	integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+	crossorigin=""></script>
+<!--Until this-->
 </head>
 <body>
 	<header class="title-row">
@@ -36,7 +45,11 @@
 			In future times, this will consist of a thrilling story, including hotels, reviews and prejudice.
 		</p>
 
-		<div id="container"></div>
+		<!--<div id="container"></div>-->
+		<!--new map-->
+		<p>Other Map</p>
+		<div id="map"></div>
+		<!--until this-->
 
 		<p>
 			Feel free to choose a timeframe with a brush here:
@@ -85,5 +98,5 @@
 <script src="map2.js"></script>
 <script src="lineplot.js"></script>
 <script src="hotel_loc.json"></script>
-
+<script src="newmap.js"></script>
 </html>
