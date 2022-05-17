@@ -65,13 +65,13 @@
 		</p>
 
 		<div id="wordclouds">
-			<span><svg width="400" height="300" >
-				<rect width="300" height="300" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)"/>
-				<text x="20" y="35" class="small">*Positive Wordcloud*</text>
+			<span><svg id="neg-cloud" width="400" height="300" >
+				<!-- <rect width="300" height="300" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)"/>
+				<text x="20" y="35" class="small">*Positive Wordcloud*</text> -->
 			</svg></span>
-			<span><svg width="400" height="300" >
-				<rect width="300" height="300" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)"/>
-				<text x="20" y="35" class="small">*Negative Wordcloud*</text>
+			<span><svg id="pos-cloud" width="400" height="300" >
+				<!-- <rect width="300" height="300" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)"/>
+				<text x="20" y="35" class="small">*Negative Wordcloud*</text> -->
 			</svg></span>
 		</div>
 		
@@ -93,6 +93,8 @@
 </body>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
 <script src="https://unpkg.com/topojson@3"></script>
 <script src="map.js"></script>
 <script src="map2.js"></script>
