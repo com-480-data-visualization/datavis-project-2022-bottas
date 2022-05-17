@@ -18,6 +18,8 @@ var path2 = d3.geoPath()
 var g2 = svg2.append("g");
 var g3 = svg2.append("g");
 
+var current_hotel = "Doubletree by Hilton London Kensington";
+var current_transform = null;
 
 var hotel_name_to_lonlat = {};
 var hotel_locs = $.getJSON("hotel_loc.json", function(markers) {
@@ -27,12 +29,17 @@ var hotel_locs = $.getJSON("hotel_loc.json", function(markers) {
         .attr("cx", d => projection2([d.lng, d.lat])[0])
         .attr("cy", d => projection2([d.lng, d.lat])[1])
         .attr("r", 5)
+        .attr("id", d => d.Hotel_Name)
         .attr("class", "circle")
         .style("fill", "69b3a2")
         .attr("stroke", "#69b3a2")
         .attr("stroke-width", 3)
         .attr("fill-opacity", .4)
-        .style('vector-effect', 'non-scaling-stroke');
+        .style('vector-effect', 'non-scaling-stroke')
+        .on('click', function() {
+            current_hotel = this.id;
+            draw_lines(current_hotel);
+        });
     markers.forEach(function(d) {
         hotel_name_to_lonlat[d.Hotel_Name] = [d.lng, d.lat];  
     })
@@ -58,24 +65,26 @@ d3.json("countries.geojson").then(function(json) {
     );
 });
 
-const current_hotel = "Doubletree by Hilton London Kensington";
-
 var div = d3.select("body").append("div")
      .attr("class", "tooltip-line")
      .style("opacity", 0);
 
+
+function draw_lines(hotel) {
 d3.json('reviewer_nationalities.json').then(function(json) {
-    current_hotel_lonlat = hotel_name_to_lonlat[current_hotel];
+    svg2.selectAll('line').remove();
+
+    current_hotel_lonlat = hotel_name_to_lonlat[hotel];
 
     json.forEach(function(d) {
-        if (d.Hotel_Name == current_hotel) {
+        if (d.Hotel_Name == hotel) {
             country_lonlat = country_to_lonlat[d.Reviewer_Nationality];
             svg2.append("line").attr("x1", projection2(country_lonlat)[0])
             .attr("y1", projection2(country_lonlat)[1])
             .attr("x2", projection2(current_hotel_lonlat)[0])
             .attr("y2", projection2(current_hotel_lonlat)[1])
             .style('stroke', 'black').style('stroke-width', 0.1*d.Number).style('vector-effect', 'non-scaling-stroke')
-            .attr('id', d.Reviewer_Nationality).attr('no_reviewers', d.Number);
+            .attr('id', d.Reviewer_Nationality).attr('no_reviewers', d.Number).attr('transform', current_transform);
         }
     });
 
@@ -102,6 +111,8 @@ d3.json('reviewer_nationalities.json').then(function(json) {
 });
 });
 
+svg2.call(zoom2);
+};
 // Zoom while keeping circles on same size
 var zoom2 = d3.zoom()
       .scaleExtent([1, 500])
@@ -115,7 +126,9 @@ var zoom2 = d3.zoom()
           const new_r = 5/event.transform.k;
           g3.selectAll('circle').attr("r", new_r);
           svg2.selectAll("line").attr('transform', event.transform);
+          current_transform = event.transform;
           //g3.selectAll("circle").attr("r", 5/event.transform.k);
 });
 
+draw_lines(current_hotel);
 svg2.call(zoom2);
