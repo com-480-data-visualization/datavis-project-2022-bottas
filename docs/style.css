@@ -214,3 +214,6 @@ path {
 	stroke: black;
 	stroke-width: 4px;
   }
+
+/* This is for the new map.*/
+#map { height: 520px; }
