@@ -31,7 +31,8 @@ var hotel_locs = $.getJSON("hotel_loc.json", function(markers) {
         .style("fill", "69b3a2")
         .attr("stroke", "#69b3a2")
         .attr("stroke-width", 3)
-        .attr("fill-opacity", .4);
+        .attr("fill-opacity", .4)
+        .style('vector-effect', 'non-scaling-stroke');
     markers.forEach(function(d) {
         hotel_name_to_lonlat[d.Hotel_Name] = [d.lng, d.lat];  
     })
@@ -56,7 +57,6 @@ d3.json("countries.geojson").then(function(json) {
     }
     );
 });
-console.log(country_to_lonlat);
 
 const current_hotel = "Doubletree by Hilton London Kensington";
 
@@ -74,7 +74,7 @@ d3.json('reviewer_nationalities.json').then(function(json) {
             .attr("y1", projection2(country_lonlat)[1])
             .attr("x2", projection2(current_hotel_lonlat)[0])
             .attr("y2", projection2(current_hotel_lonlat)[1])
-            .style('stroke', 'black').style('stroke-width', 0.1*d.Number)
+            .style('stroke', 'black').style('stroke-width', 0.1*d.Number).style('vector-effect', 'non-scaling-stroke')
             .attr('id', d.Reviewer_Nationality).attr('no_reviewers', d.Number);
         }
     });
@@ -83,7 +83,6 @@ d3.json('reviewer_nationalities.json').then(function(json) {
     
     lines.on('mouseover', function (d, i) {
         let line = d3.select(this);
-        console.log(d3.select(this).attr('no_reviewers'));
         d3.select(this).transition()
              .duration('50')
              .attr('opacity', '.85');
@@ -113,7 +112,8 @@ var zoom2 = d3.zoom()
           //var newX = event.transform.rescale(projection2);
           //var newY = event.transform.rescaleY(projection2);
           g3.attr('transform', event.transform);
-          g3.selectAll('circle').attr("r", 5/event.transform.k).attr("stroke-width", 3/event.transform.k);
+          const new_r = 5/event.transform.k;
+          g3.selectAll('circle').attr("r", new_r);
           svg2.selectAll("line").attr('transform', event.transform);
           //g3.selectAll("circle").attr("r", 5/event.transform.k);
 });
