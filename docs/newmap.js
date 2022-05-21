@@ -14,7 +14,7 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
 }).addTo(map);
 
 
-// select visible hotels
+// select visible hotels (currently unused)
 function intersectRect(r1, r2) {
     return !(r2.left > r1.right ||
       r2.right < r1.left ||
@@ -36,19 +36,6 @@ function getVisibleMarkers() {
     if (visibles.length > 0) return(visibles);
 }
 
-
-fetch("hotel_data.geojson")
-.then(function(response) {
-return response.json();
-})
-.then(function(data) {
-// console.log(L.geoJSON(data));
-L.geoJSON(data).addTo(map);
-markerList = getVisibleMarkers();
-hotelData = whatever_the_f_this_is.responseJSON;
-});
-
-
 function getVisibleMarkerIDs(){
   ref = markerList;
   visible = getVisibleMarkers();
@@ -63,23 +50,7 @@ function getVisibleMarkerIDs(){
 
 
 
-// wordclouds
-function getWords(cur_IDs){
-  // cur_IDs = getVisibleMarkerIDs();
-  posWords = []
-  negWords = []
-  for (let i = 0; i < cur_IDs.length; i++) {
-    var id = cur_IDs[i];
-    var reviews = hotelData.features[id].properties.reviews
-    for (let j = 0; j < reviews.length; j++) {
-      posWords = posWords.concat(reviews[j].pos_review_words)
-      negWords = negWords.concat(reviews[j].neg_review_words)
-    }
-  }
-
-  return [posWords, negWords]
-}
-
+// helper functions
 function Counter(array) {
   array.forEach(val => this[val] = (this[val] || 0) + 1);
 }
@@ -94,23 +65,88 @@ function toList(dict){
   return arr;
 }
 
-var cloud;
 
-function drawCloud(words, top_n, id){
-  counts = new Counter(words);
-  delete counts[''];
-  // keep only top n words
-  var list = Object.keys(counts).map(function(key) {
-    return [key, counts[key]];
-  });
-
-  list.sort(function(first, second) {
-    return second[1] - first[1];
-  });
-
-  console.log(list);
-
-  list = list.slice(0, top_n);
-  // WordCloud.minFontSize = "150px";
-  WordCloud(document.getElementById('wordclouds'), { list: list} );
+// gets all the words from reviews of a list of hotel indexes
+function getWords(cur_IDs){
+  posWords = []
+  negWords = []
+  for (let i = 0; i < cur_IDs.length; i++) {
+    var id = cur_IDs[i];
+    var reviews = hotelData.features[id].properties.reviews
+    for (let j = 0; j < reviews.length; j++) {
+      posWords = posWords.concat(reviews[j].pos_review_words)
+      negWords = negWords.concat(reviews[j].neg_review_words)
+    }
+  }
+  
+  return [posWords, negWords]
 }
+
+
+// wordclouds
+class WordCloud {
+  constructor(container_id, top_word_num){
+    
+    var data = anychart.data.set([]);
+    for (let _ = 0; _ < top_word_num; _++) {
+      data.append({'x': 'loading', 'value': 1})
+    }
+    
+    var chart = anychart.tagCloud(data);
+    chart.container(container_id);
+    chart.draw();
+    
+    // this.view = cloudview;
+    this.view = data.mapAs();
+    this.top_word_num = top_word_num;
+  }
+  
+  _setView(data){
+    for (let i = 0; i < data.length; i++) {
+      const el = data[i];
+      this.view.set(i, 'x', el['x']);
+      this.view.set(i, 'value', el['value']); 
+    }
+  }
+  
+  setWords(words){
+    var counts = new Counter(words);
+    delete counts[''];
+    // keep only top n words
+    var list = Object.keys(counts).map(function(key) {
+      return [key, counts[key]];
+    });
+    
+    list.sort(function(first, second) {
+      return second[1] - first[1];
+    });
+    
+    
+    var top_words = list.slice(0, this.top_word_num);
+    
+    var data = [];
+    for (let i = 0; i < top_words.length; i++) {
+      const el = top_words[i];
+      data = data.concat([{'x': el[0], 'value': el[1]}]);
+    };
+    this._setView(data);
+    
+  }
+}
+
+pos_cloud = new WordCloud('pos-cloud', 20);
+neg_cloud = new WordCloud('neg-cloud', 20);
+
+// load the lemmaized hotel reviews, then draw wordclouds from them
+fetch("hotel_data.geojson")
+.then(function(response) {
+return response.json();
+})
+.then(function(data) {
+L.geoJSON(data).addTo(map);
+markerList = getVisibleMarkers();
+hotelData = whatever_the_f_this_is.responseJSON;
+[pos, neg] = getWords([0]);
+pos_cloud.setWords(pos);
+neg_cloud.setWords(neg);
+});

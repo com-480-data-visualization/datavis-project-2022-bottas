@@ -19,8 +19,9 @@
    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
    crossorigin=""></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <!--New map-->
    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
@@ -64,15 +65,9 @@
 			positive and negative reviews:
 		</p>
 
-		<div id="wordclouds">
-			<span><svg id="neg-cloud" width="400" height="300" >
-				<!-- <rect width="300" height="300" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)"/>
-				<text x="20" y="35" class="small">*Positive Wordcloud*</text> -->
-			</svg></span>
-			<span><svg id="pos-cloud" width="400" height="300" >
-				<!-- <rect width="300" height="300" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)"/>
-				<text x="20" y="35" class="small">*Negative Wordcloud*</text> -->
-			</svg></span>
+		<div class="row" id="wordclouds">
+			<div class="col-sm-6" id="neg-cloud"></div>
+			<div class="col-sm-6" id="pos-cloud"></div>
 		</div>
 		
 		<h4>Connection Map</h4>
@@ -93,9 +88,9 @@
 </body>
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/holtzy/D3-graph-gallery@master/LIB/d3.layout.cloud.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/wordcloud@1.2.2/src/wordcloud2.min.js"></script>
 <script src="https://unpkg.com/topojson@3"></script>
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-base.min.js"></script>
+<script src="https://cdn.anychart.com/releases/v8/js/anychart-tag-cloud.min.js"></script>
 <script src="map.js"></script>
 <script src="map2.js"></script>
 <script src="lineplot.js"></script>
