@@ -3,5 +3,5 @@
 .*
 !.gitattributes
 # this file is too fat
-
+docs/hotel_data.geojson
 scratch
