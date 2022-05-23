@@ -1,6 +1,7 @@
 *env
 *.csv
 .*
+!.gitattributes
 # this file is too fat
-hotel_data.geojson
+
 scratch
