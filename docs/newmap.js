@@ -139,7 +139,8 @@ neg_cloud = new WordCloud('neg-cloud', 20);
 
 // load the lemmaized hotel reviews, then draw wordclouds from them
 // from aws: fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
-fetch("hotel_data.geojson")
+//fetch("hotel_data.geojson")
+fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
 .then(function(response) {
 return response.json();
 })
