@@ -137,15 +137,72 @@ class WordCloud {
 pos_cloud = new WordCloud('pos-cloud', 20);
 neg_cloud = new WordCloud('neg-cloud', 20);
 
+function onEachFeature(feature, layer) {
+  // does this feature have a property named popupContent?
+  if (feature.properties && feature.properties.name) {
+      layer.bindPopup(feature.properties.name);
+      layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+feature.properties.avg_score);
+  }
+}
+
+
+
+//get icon
+var blueIcon =  L.AwesomeMarkers.icon({
+  markerColor: 'blue'
+});
+var greenIcon =  L.AwesomeMarkers.icon({
+  markerColor: 'green'
+});
+var darkredIcon =  L.AwesomeMarkers.icon({
+  markerColor: 'darkred'
+});
+var orangeIcon =  L.AwesomeMarkers.icon({
+  markerColor: 'orange'
+});
+var redIcon =  L.AwesomeMarkers.icon({
+  markerColor: 'red'
+});
+
+L.marker([51.941196,4.512291], {icon: greenIcon }).addTo(map);
+
+//function for different markers
+function myStyle(feature, latlng) {
+var score = feature.properties.avg_score;
+if (score >= 9) {
+  return L.marker(latlng,{ icon: greenIcon  }); 
+} 
+if (score >= 8) {
+  return L.marker(latlng,{ icon: blueIcon  }); 
+} 
+else if (score >= 7) {
+  return L.marker(latlng,{ icon: orangeIcon  });
+} 
+else if (score >= 6) {
+  return L.marker(latlng,{ icon: redIcon });
+} 
+else {
+  return L.marker(latlng,{ icon: darkredIcon });
+}};
+
+
+
 // load the lemmaized hotel reviews, then draw wordclouds from them
 // from aws: fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
-//fetch("hotel_data.geojson")
-fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
+//fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
+fetch("hotel_loc.geojson")
 .then(function(response) {
 return response.json();
 })
 .then(function(data) {
-L.geoJSON(data).addTo(map);
+  my_json = L.geoJSON(data,
+    {   
+      pointToLayer: myStyle,
+      onEachFeature: onEachFeature
+        
+    }
+  ).addTo(map);
+
 markerList = getVisibleMarkers();
 hotelData = whatever_the_f_this_is.responseJSON;
 [pos, neg] = getWords([0]);
