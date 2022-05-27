@@ -89,7 +89,7 @@ class WordCloud {
     
     var data = anychart.data.set([]);
     for (let _ = 0; _ < top_word_num; _++) {
-      data.append({'x': 'loading', 'value': 1})
+      data.append({'x': 'unselected', 'value': 1})
     }
     
     var chart = anychart.tagCloud(data);
@@ -137,18 +137,76 @@ class WordCloud {
 pos_cloud = new WordCloud('pos-cloud', 20);
 neg_cloud = new WordCloud('neg-cloud', 20);
 
+
+
+function onEachFeature(feature, layer) {
+  if (feature.properties && feature.properties.name) {
+      layer.bindPopup(feature.properties.name);
+      layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+feature.properties.avg_score);
+      // also update wordclouds
+      // pos_cloud.setWords(['no']); unfortunately just this line crashes the page
+
+
+    //   var posWords = [];
+    //   var negWords = [];
+    //   var reviews = feature.properties.reviews;
+    //   for (let j = 0; j < reviews.length; j++) {
+    //     posWords = posWords.concat(reviews[j].pos_review_words)
+    //     negWords = negWords.concat(reviews[j].neg_review_words)
+    // }
+    //   pos_cloud.setWords(posWords);
+    //   neg_cloud.setWords(negWords);
+  }
+}
+
+
 // load the lemmaized hotel reviews, then draw wordclouds from them
-// from aws: fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
-//fetch("hotel_data.geojson")
-fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
+// from aws: 
+// fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
+// local:
+fetch("hotel_data.geojson")
 .then(function(response) {
 return response.json();
 })
 .then(function(data) {
-L.geoJSON(data).addTo(map);
+L.geoJSON(data,
+  {
+      onEachFeature: onEachFeature,
+  }
+).addTo(map);
+
 markerList = getVisibleMarkers();
 hotelData = whatever_the_f_this_is.responseJSON;
-[pos, neg] = getWords([0]);
-pos_cloud.setWords(pos);
-neg_cloud.setWords(neg);
+// [pos, neg] = getWords([0]);
+// pos_cloud.setWords(pos);
+// neg_cloud.setWords(neg);
+var intervalId = window.setInterval(function(){
+  update_clouds();
+}, 100);
 });
+
+
+
+var _last_hotel = '';
+function update_clouds() {
+  var popups = document.getElementsByClassName('leaflet-popup-content');
+  var hotel_name = popups[0].childNodes[1].data;
+  if (popups.length != 1 || _last_hotel == hotel_name){
+    return
+  }
+  
+
+  var hotel_info = hotelData['features'].find(el => hotel_name.includes(el['properties']['name']));
+  var reviews = hotel_info['properties']['reviews'];
+
+  posWords = [];
+  negWords = [];
+  for (let j = 0; j < reviews.length; j++) {
+      posWords = posWords.concat(reviews[j]['pos_review_words']);
+      negWords = negWords.concat(reviews[j]['neg_review_words']);
+  }
+  pos_cloud.setWords(posWords);
+  neg_cloud.setWords(negWords);
+
+  _last_hotel = hotel_name;
+}
