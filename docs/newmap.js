@@ -176,8 +176,6 @@ var redIcon =  L.AwesomeMarkers.icon({
   markerColor: 'red'
 });
 
-L.marker([51.941196,4.512291], {icon: greenIcon }).addTo(map);
-
 //function for different markers
 function myStyle(feature, latlng) {
 var score = feature.properties.avg_score;
