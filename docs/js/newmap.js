@@ -5,7 +5,7 @@ var hotelData;
 var whatever_the_f_this_is = $.getJSON("hotel_data.geojson");
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-  attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+  //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
   maxZoom: 18,
   id: 'mapbox/light-v10',
   tileSize: 512,
@@ -247,3 +247,8 @@ function update_clouds() {
 
   _last_hotel = hotel_name;
 }
+
+const credits = L.control.attribution().addTo(map);
+credits.addAttribution(
+  `© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>`
+);
