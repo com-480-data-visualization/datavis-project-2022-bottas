@@ -231,12 +231,6 @@ div.tooltip-line {
 }
 
 
-#map {
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	width: 100%;
-  }
   
   .mapbox-attribution-container {
 	bottom: 0;
