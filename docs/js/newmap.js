@@ -200,7 +200,7 @@ else {
 // from aws: 
 // fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
 // local:
-fetch("hotel_data.geojson")
+fetch("./json_eu_map/hotel_data.geojson")
 .then(function(response) {
 return response.json();
 })
