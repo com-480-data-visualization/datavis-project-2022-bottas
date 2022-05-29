@@ -17,8 +17,8 @@ svg_line.append("g").attr("transform", "translate(0, 250)").attr("fill", "black"
 //.attr("x2", 650)
 //.attr("y2", 100); 
 
-var start_month = new Date(2015, 8, 1);
-var end_month = new Date(2017, 8, 31);
+var start_date = new Date(2015, 8, 1);
+var end_date = new Date(2017, 8, 31);
 
 svg_line.append("rectangle").attr("width", 700).attr("height", 300)
 .attr("style", "fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)");
@@ -36,13 +36,13 @@ function brushended(event) {
     if (!event.sourceEvent || !selection) return;
     let start_coord = selection[0];
     let end_coord = selection[1];
-    let start_date = x_scale.invert(start_coord);
-    let end_date = x_scale.invert(end_coord);
-    start_date.setDate(1);
-    end_date = new Date(end_date.getFullYear(), end_date.getMonth()+1, 0);
+    let start = x_scale.invert(start_coord);
+    let end = x_scale.invert(end_coord);
+    start.setDate(1);
+    end = new Date(end.getFullYear(), end.getMonth()+1, 0);
 
-    start_month = start_date;
-    end_month = end_date;
+    start_date = start;
+    end_date = end;
 
     d3.select(this).call(brush.move, [start_date,end_date].map(x_scale));
 }
