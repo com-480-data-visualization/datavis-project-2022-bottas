@@ -5,18 +5,20 @@ let y_axis = d3.axisRight()
 .scale(y_scale);
 svg_line.append("g").attr("transform", "translate(50, 0)").call(y_axis);
 
-let x_scale = d3.scaleTime().domain([new Date("2015-01-01T00:01"), new Date("2017-12-31T00:01")])
+let x_scale = d3.scaleTime().domain([new Date(2015, 8, 1), new Date(2017, 8, 31)])
 .range([50, 650]);
 let x_axis = d3.axisBottom().scale(x_scale);
 svg_line.append("g").attr("transform", "translate(0, 250)").attr("fill", "black").call(x_axis);
-console.log(x_scale(new Date("2015-01-02T00:01")));
 
-svg_line.append("line").style("stroke", "black")
-.style("stroke-width", 1.5)
-.attr("x1", 50)
-.attr("y1", 100)
-.attr("x2", 650)
-.attr("y2", 100); 
+//svg_line.append("line").style("stroke", "black")
+//.style("stroke-width", 1.5)
+//.attr("x1", 50)
+//.attr("y1", 100)
+//.attr("x2", 650)
+//.attr("y2", 100); 
+
+var start_month = new Date(2015, 8, 1);
+var end_month = new Date(2017, 8, 31);
 
 svg_line.append("rectangle").attr("width", 700).attr("height", 300)
 .attr("style", "fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)");
@@ -24,6 +26,23 @@ svg_line.append("rectangle").attr("width", 700).attr("height", 300)
 const brush = d3.brushX()
 .extent([[50, 0], [650, 250]]);
 
-svg_line.append("g").call(brush).call(brush.move, [[50, 0], [650, 250]]);
 
+brush.on("end", brushended);
 
+svg_line.append("g").call(brush).call(brush.move, [50, 650]);
+
+function brushended(event) {
+    const selection = event.selection;
+    if (!event.sourceEvent || !selection) return;
+    let start_coord = selection[0];
+    let end_coord = selection[1];
+    let start_date = x_scale.invert(start_coord);
+    let end_date = x_scale.invert(end_coord);
+    start_date.setDate(1);
+    end_date = new Date(end_date.getFullYear(), end_date.getMonth()+1, 0);
+
+    start_month = start_date;
+    end_month = end_date;
+
+    d3.select(this).call(brush.move, [start_date,end_date].map(x_scale));
+}
