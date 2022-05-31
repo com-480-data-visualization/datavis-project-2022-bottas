@@ -1,8 +1,9 @@
 /*New map.*/
+var hotel_data_filename = "json_eu_map/hotel_data.geojson"; // change this to the aws eventually
 var map = L.map('map').setView([47.811195, 13.033229], 4);
 var markerList;
 var hotelData;
-var whatever_the_f_this_is = $.getJSON("hotel_data.geojson");
+var whatever_the_f_this_is = $.getJSON(hotel_data_filename);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
   //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -197,7 +198,7 @@ else {
 // from aws: 
 // fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
 // local:
-fetch("./json_eu_map/hotel_loc.geojson")
+fetch(hotel_data_filename)
 .then(function(response) {
 return response.json();
 })
@@ -224,11 +225,9 @@ var intervalId = window.setInterval(function(){
 var _last_hotel = '';
 function update_clouds() {
   var popups = document.getElementsByClassName('leaflet-popup-content');
+  if (popups.length != 1){return}
   var hotel_name = popups[0].childNodes[1].data;
-  if (popups.length != 1 || _last_hotel == hotel_name){
-    return
-  }
-  
+  if (_last_hotel == hotel_name){return}
 
   var hotel_info = hotelData['features'].find(el => hotel_name.includes(el['properties']['name']));
   var reviews = hotel_info['properties']['reviews'];
