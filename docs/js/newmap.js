@@ -13,7 +13,6 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   accessToken: 'pk.eyJ1IjoiaGhpbGRhYSIsImEiOiJjbDM4bndzNGowMW9pM2pxbWo5aWdnMTR3In0.7VwzpEqRUIHqyO85CB3xJg'
 }).addTo(map);
 
-
 // select visible hotels (currently unused)
 function intersectRect(r1, r2) {
     return !(r2.left > r1.right ||
@@ -47,8 +46,6 @@ function getVisibleMarkerIDs(){
   }
   return IDs;
 }
-
-
 
 // helper functions
 function Counter(array) {
@@ -200,7 +197,7 @@ else {
 // from aws: 
 // fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
 // local:
-fetch("./json_eu_map/hotel_data.geojson")
+fetch("./json_eu_map/hotel_loc.geojson")
 .then(function(response) {
 return response.json();
 })
@@ -252,3 +249,19 @@ const credits = L.control.attribution().addTo(map);
 credits.addAttribution(
   `© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>`
 );
+
+//default view on map
+document.getElementById('map-navigation').onclick = function changezoomVienna(){
+    map.setView([48.210033, 16.363449], 12);}
+document.getElementById('map-navigation').onclick = function changezoomAmsterdam(){
+    map.setView([52.377956, 4.897070], 12);}
+document.getElementById('map-navigation').onclick = function changezoomLondon(){
+  map.setView([51.509865, -0.118092], 11);}
+document.getElementById('map-navigation').onclick = function changezoomParis(){
+  map.setView([48.85341, 2.3488], 12);}
+document.getElementById('map-navigation').onclick = function changezoomMilan(){
+  map.setView([45.464664, 9.188540], 12);}
+document.getElementById('map-navigation').onclick = function changezoomBarcelona(){
+  map.setView([41.390205, 2.154007], 12);}
+document.getElementById('map-navigation').onclick = function changezoomEurope(){
+  map.setView([47.811195, 13.033229], 4);}
