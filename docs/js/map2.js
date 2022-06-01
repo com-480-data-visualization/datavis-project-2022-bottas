@@ -53,7 +53,7 @@ d3.json("./json_world_map/countries-110m.json").then(function(topology) {
            .features)
        .enter().append("path")
        .attr("d", path2)
-       .attr('class', d => console.log(d.properties.name));
+       .attr('class', d => d.properties.name);
 });
 
 // Create mapping of countries to their centroids
