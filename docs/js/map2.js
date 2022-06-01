@@ -47,13 +47,13 @@ var hotel_locs = $.getJSON("./json_world_map/hotel_loc.json", function(markers) 
 });
 
 // load and display the World
-d3.json("./json_world_map/world.json").then(function(topology) {
+d3.json("./json_world_map/countries-110m.json").then(function(topology) {
     g2.selectAll("path")
        .data(topojson.feature(topology, topology.objects.countries)
            .features)
        .enter().append("path")
        .attr("d", path2)
-       .attr('class', 'country2');
+       .attr('class', d => console.log(d.properties.name));
 });
 
 // Create mapping of countries to their centroids
