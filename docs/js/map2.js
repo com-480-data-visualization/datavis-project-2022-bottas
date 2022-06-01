@@ -83,7 +83,7 @@ d3.json('./json_world_map/reviewer_nationalities.json').then(function(json) {
             .attr("y1", projection2(country_lonlat)[1])
             .attr("x2", projection2(current_hotel_lonlat)[0])
             .attr("y2", projection2(current_hotel_lonlat)[1])
-            .style('stroke', 'black').style('stroke-width', 0.1*d.Number).style('vector-effect', 'non-scaling-stroke')
+            .style('stroke', 'black').style('stroke-width',  Math.log(0.2*d.Number)).style('vector-effect', 'non-scaling-stroke')
             .attr('id', d.Reviewer_Nationality).attr('no_reviewers', d.Number).attr('transform', current_transform);
         }
     });
