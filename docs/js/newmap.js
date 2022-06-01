@@ -1,8 +1,9 @@
 /*New map.*/
+var hotel_data_filename = "json_eu_map/hotel_data.geojson"; // change this to the aws eventually
 var map = L.map('map').setView([47.811195, 13.033229], 4);
 var markerList;
 var hotelData;
-var whatever_the_f_this_is = $.getJSON("hotel_data.geojson");
+var whatever_the_f_this_is = $.getJSON(hotel_data_filename);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
   //attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
@@ -12,7 +13,6 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   zoomOffset: -1,
   accessToken: 'pk.eyJ1IjoiaGhpbGRhYSIsImEiOiJjbDM4bndzNGowMW9pM2pxbWo5aWdnMTR3In0.7VwzpEqRUIHqyO85CB3xJg'
 }).addTo(map);
-
 
 // select visible hotels (currently unused)
 function intersectRect(r1, r2) {
@@ -47,8 +47,6 @@ function getVisibleMarkerIDs(){
   }
   return IDs;
 }
-
-
 
 // helper functions
 function Counter(array) {
@@ -200,7 +198,7 @@ else {
 // from aws: 
 // fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
 // local:
-fetch("./json_eu_map/hotel_data.geojson")
+fetch(hotel_data_filename)
 .then(function(response) {
 return response.json();
 })
@@ -227,11 +225,9 @@ var intervalId = window.setInterval(function(){
 var _last_hotel = '';
 function update_clouds() {
   var popups = document.getElementsByClassName('leaflet-popup-content');
+  if (popups.length != 1){return}
   var hotel_name = popups[0].childNodes[1].data;
-  if (popups.length != 1 || _last_hotel == hotel_name){
-    return
-  }
-  
+  if (_last_hotel == hotel_name){return}
 
   var hotel_info = hotelData['features'].find(el => hotel_name.includes(el['properties']['name']));
   var reviews = hotel_info['properties']['reviews'];
@@ -252,3 +248,19 @@ const credits = L.control.attribution().addTo(map);
 credits.addAttribution(
   `© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>`
 );
+
+//default view on map
+document.getElementById('map-Vienna').onclick = function changezoomVienna(){
+    map.flyTo([48.210033, 16.363449], 12);}
+document.getElementById('map-Amsterdam').onclick = function changezoomAmsterdam(){
+    map.flyTo([52.377956, 4.897070], 12);}
+document.getElementById('map-London').onclick = function changezoomLondon(){
+  map.flyTo([51.509865, -0.118092], 11);}
+document.getElementById('map-Paris').onclick = function changezoomParis(){
+  map.flyTo([48.85341, 2.3488], 12);}
+document.getElementById('map-Milan').onclick = function changezoomMilan(){
+  map.flyTo([45.464664, 9.188540], 12);}
+document.getElementById('map-Barcelona').onclick = function changezoomBarcelona(){
+  map.flyTo([41.390205, 2.154007], 12);}
+document.getElementById('map-Europe').onclick = function changezoomEurope(){
+  map.flyTo([47.811195, 13.033229], 4);}

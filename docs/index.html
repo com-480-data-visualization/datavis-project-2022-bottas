@@ -49,60 +49,81 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <body>
 	<script src="js/leaflet.awesome-markers.js"></script>
 	<link rel="stylesheet" href="css/ionicons.min.css">
-	<header class="title-row">
-		<h1> Seasonal trends in Hotel reviews </h1>
-	</header>
 
-	<main class="width-limited">
-		<p>
-			This is the skeleton for our MVP. 
-		</p>
+<header class="title-row">
+	<nav class="navbar navbar-blue default-color justify-content-between">
+			<h1>Seasonal trends in Hotel reviews</h1>
+			<!--<a onclick="showTutorial()">Tutorial</a>-->
+			<a href="https://github.com/com-480-data-visualization/datavis-project-2022-bottas">GitHub</a>
+			<a href="https://www.google.com/">Process Book</a>
+			<a href="https://www.google.com/">Screencast</a>
+	</nav>
+</header>
 
-		<h4>Hotel Map with reviews</h4>
-		<p>
-			In future times, this will consist of a thrilling story, including hotels, reviews and prejudice.
-		</p>
 
-		<!--<div id="container"></div>-->
-		<!--new map-->
-		<p>Other Map</p>
-		<div id='map'>
-			<a href="http://mapbox.com/about/maps" class='mapbox-logo' target="_blank">Mapbox</a>
-			<div class="mapbox-attribution-container">
-			  <a href="https://www.mapbox.com/about/maps/">© Mapbox | </a>
-			  <a href="http://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
-			  <a href="https://www.mapbox.com/map-feedback/" target="_blank"><strong>Improve this map</strong></a>
+<main class="width-limited">
+
+<h2>Hotel Map with reviews</h2>
+<p>In the following visualization you can see some of the most visited cities by tourists in Europe.</p>
+<div class="globalrow">
+<div class="column">
+	<p>In this map you can see the hotels as markers on the map. By clicking on it, the name of the hotel and the average score 
+		given by reviewers shows up. The markers are color coded greens are the best hotels and dark reds are the worst. By 
+		clicking on the buttons below the map, you can choose where to zoom in the map.
+	</p>
+	<div id='map' >
+		<a href="http://mapbox.com/about/maps" class='mapbox-logo' target="_blank">Mapbox</a>
+		<div class="mapbox-attribution-container">
+			<a href="https://www.mapbox.com/about/maps/">© Mapbox | </a>
+			<a href="http://www.openstreetmap.org/copyright">© OpenStreetMap | </a>
+			<a href="https://www.mapbox.com/map-feedback/" target="_blank"></a>
+		</div>
+		</div>
+			<div>
+			<button id="map-Amsterdam" type="button" onclick="changezoomAmsterdam()">Amsterdam</button>
+			<button id="map-London" type="button" onclick="changezoomLondon()">London</button>
+			<button id="map-Paris" type="button" onclick="changezoomParis()">Paris</button>
+			<button id="map-Milan" type="button" onclick="changezoomMilan()">Milan</button>
+			<button id="map-Barcelona" type="button" onclick="changezoomBarcelona()">Barcelona</button>
+			<button id="map-Vienna" type="button" onclick="changezoomVienna()">Vienna</button>
+			<button id="map-Europe" type="button" onclick="changezoomEurope()">Europe</button>
 			</div>
-		  </div>
-		<!--until this-->
+	<!--until this-->
+</div>
+<div class="column">
+	<p>
+		Feel free to choose a timeframe with a brush here:
+	</p>
 
-		<p>
-			Feel free to choose a timeframe with a brush here:
-		</p>
+	<div id="lineplot" >
 
-		<div id="lineplot">
+	</div>
 
+	<p>
+		When a hotel is chosen above, so you clicked on it in the map, you can see here the most common words in 
+		positive and negative reviews below.
+	</p>
+
+	<div class="row" id="wordclouds" class="column">
+
+		<div class="col-sm-6" id="neg-cloud">
+			<p>Negative words</p>
 		</div>
-
-		<p>
-			When a hotel is chosen above, you can see here the most common words in 
-			positive and negative reviews:
-		</p>
-
-		<div class="row" id="wordclouds">
-			<div class="col-sm-6" id="neg-cloud"></div>
-			<div class="col-sm-6" id="pos-cloud"></div>
+		<div class="col-sm-6" id="pos-cloud">
+			<p>Positive words</p>
 		</div>
-		
-		<h4>Connection Map</h4>
+	</div>
+</div>
+</div>	
+	<h2>Connection Map</h2>
 
-		<p>
-			The world is connected, and so are we.
-		</p>
+	<p>
+		The world is connected, and so are we.
+	</p>
 
-		<div id="container2"></div>
+	<div id="container2"></div>
 
-	</main>
+</main>
 	<div class="width-limited">
 		<h4>Credits</h4>
 		<p>The project was created for the <a href="http://edu.epfl.ch/coursebook/en/data-visualization-COM-480">Data Visualization</a> course at EPFL.
