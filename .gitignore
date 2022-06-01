@@ -1,5 +1,6 @@
 *env
 *.csv
+!docs/lineplots/avg_scores_whole.csv
 .*
 !.gitattributes
 # this file is too fat

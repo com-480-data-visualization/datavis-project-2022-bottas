@@ -1,6 +1,6 @@
 let svg_line = d3.select("#lineplot").append("svg").attr("width", 700).attr("height", 300)
 
-let y_scale = d3.scaleLinear().domain([10,0]).range([50,250]);
+let y_scale = d3.scaleLinear().domain([10,7]).range([50,250]);
 let y_axis = d3.axisRight()
 .scale(y_scale);
 svg_line.append("g").attr("transform", "translate(50, 0)").call(y_axis);
@@ -15,7 +15,23 @@ svg_line.append("g").attr("transform", "translate(0, 250)").attr("fill", "black"
 //.attr("x1", 50)
 //.attr("y1", 100)
 //.attr("x2", 650)
-//.attr("y2", 100); 
+//.attr("y2", 100);
+var lineplot_points = [];
+d3.csv('lineplots/avg_scores_whole.csv').then(function(data){
+    for (const entry of data) {
+        date = new Date(parseInt(entry['Review_Year']), parseInt(entry['Review_Month']), 15);
+        lineplot_points.push([date, parseFloat(entry['Reviewer_Score'])]);
+    }
+    svg_line.append("path")
+            .datum(lineplot_points)
+            .style("fill", "none")
+            .style("stroke", "black")
+            .style("stroke-width", 1.5)
+            .attr("d", d3.line()
+                .x(function(d) { return x_scale(d[0]) })
+                .y(function(d) { return y_scale(d[1]) })
+        );
+}) 
 
 var start_date = new Date(2015, 8, 1);
 var end_date = new Date(2017, 8, 31);
@@ -24,7 +40,7 @@ svg_line.append("rectangle").attr("width", 700).attr("height", 300)
 .attr("style", "fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)");
 
 const brush = d3.brushX()
-.extent([[50, 0], [650, 250]]);
+.extent([[50, 50], [650, 250]]);
 
 
 brush.on("end", brushended);
