@@ -1,3 +1,4 @@
+var scale = 0.8
 var width2 = window.innerWidth * scale,
     height2 = 500 * scale;
 
