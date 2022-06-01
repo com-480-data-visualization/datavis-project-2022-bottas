@@ -3,6 +3,7 @@ var hotel_data_filename = "json_eu_map/hotel_data.geojson"; // change this to th
 var map = L.map('map').setView([47.811195, 13.033229], 4);
 var markerList;
 var hotelData;
+var current_lineplot_city = "whole";
 var whatever_the_f_this_is = $.getJSON(hotel_data_filename);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -13,6 +14,13 @@ L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_toke
   zoomOffset: -1,
   accessToken: 'pk.eyJ1IjoiaGhpbGRhYSIsImEiOiJjbDM4bndzNGowMW9pM2pxbWo5aWdnMTR3In0.7VwzpEqRUIHqyO85CB3xJg'
 }).addTo(map);
+
+map.on('zoomend', function(event) {
+  console.log(map.getZoom());
+  if (current_lineplot_city != "whole" && map.getZoom() <= 7) {
+    update_line("whole");
+  }
+})
 
 // select visible hotels (currently unused)
 function intersectRect(r1, r2) {

@@ -37,7 +37,8 @@ function update_line(city){
                     .x(function(d) { return x_scale(d[0]) })
                     .y(function(d) { return y_scale(d[1]) })
             );
-    }) 
+    });
+    current_lineplot_city = city;
 }
 
 //update_line("whole");
