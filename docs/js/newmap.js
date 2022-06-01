@@ -218,6 +218,7 @@ hotelData = whatever_the_f_this_is.responseJSON;
 var intervalId = window.setInterval(function(){
   update_clouds();
 }, 100);
+update_line("whole");
 });
 
 
@@ -249,18 +250,26 @@ credits.addAttribution(
   `© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>`
 );
 
+
 //default view on map
 document.getElementById('map-Vienna').onclick = function changezoomVienna(){
-    map.flyTo([48.210033, 16.363449], 12);}
+    map.flyTo([48.210033, 16.363449], 12);
+    update_line("Vienna");}
 document.getElementById('map-Amsterdam').onclick = function changezoomAmsterdam(){
-    map.flyTo([52.377956, 4.897070], 12);}
+    map.flyTo([52.377956, 4.897070], 12);
+    update_line("Amsterdam");}
 document.getElementById('map-London').onclick = function changezoomLondon(){
-  map.flyTo([51.509865, -0.118092], 11);}
+  map.flyTo([51.509865, -0.118092], 11);
+  update_line("London");}
 document.getElementById('map-Paris').onclick = function changezoomParis(){
-  map.flyTo([48.85341, 2.3488], 12);}
+  map.flyTo([48.85341, 2.3488], 12);
+  update_line("Paris");}
 document.getElementById('map-Milan').onclick = function changezoomMilan(){
-  map.flyTo([45.464664, 9.188540], 12);}
+  map.flyTo([45.464664, 9.188540], 12);
+  update_line("Milan");}
 document.getElementById('map-Barcelona').onclick = function changezoomBarcelona(){
-  map.flyTo([41.390205, 2.154007], 12);}
+  map.flyTo([41.390205, 2.154007], 12);
+  update_line("Barcelona");}
 document.getElementById('map-Europe').onclick = function changezoomEurope(){
-  map.flyTo([47.811195, 13.033229], 4);}
+  map.flyTo([47.811195, 13.033229], 4);
+  update_line("whole");}

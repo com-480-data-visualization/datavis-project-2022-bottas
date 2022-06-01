@@ -16,22 +16,32 @@ svg_line.append("g").attr("transform", "translate(0, 250)").attr("fill", "black"
 //.attr("y1", 100)
 //.attr("x2", 650)
 //.attr("y2", 100);
-var lineplot_points = [];
-d3.csv('lineplots/avg_scores_whole.csv').then(function(data){
-    for (const entry of data) {
-        date = new Date(parseInt(entry['Review_Year']), parseInt(entry['Review_Month']), 15);
-        lineplot_points.push([date, parseFloat(entry['Reviewer_Score'])]);
-    }
-    svg_line.append("path")
-            .datum(lineplot_points)
-            .style("fill", "none")
-            .style("stroke", "black")
-            .style("stroke-width", 1.5)
-            .attr("d", d3.line()
-                .x(function(d) { return x_scale(d[0]) })
-                .y(function(d) { return y_scale(d[1]) })
-        );
-}) 
+
+function update_line(city){
+    svg_line.selectAll("path").remove();
+    var lineplot_points = [];
+
+    d3.csv('lineplots/avg_scores_whole.csv').then(function(data){
+        for (const entry of data) {
+            if (entry['Type'] == city) {
+                date = new Date(parseInt(entry['Review_Year']), parseInt(entry['Review_Month']), 15);
+                lineplot_points.push([date, parseFloat(entry['Reviewer_Score'])]);   
+            }
+        }
+        svg_line.append("path")
+                .datum(lineplot_points)
+                .style("fill", "none")
+                .style("stroke", "black")
+                .style("stroke-width", 1.5)
+                .attr("d", d3.line()
+                    .x(function(d) { return x_scale(d[0]) })
+                    .y(function(d) { return y_scale(d[1]) })
+            );
+    }) 
+}
+
+//update_line("whole");
+
 
 var start_date = new Date(2015, 8, 1);
 var end_date = new Date(2017, 8, 31);
