@@ -1,5 +1,5 @@
 /*New map.*/
-var hotel_data_filename = "https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson"; // change this to the aws eventually
+var hotel_data_filename = "json_eu_map/hotel_data.geojson"; // change this to the aws eventually
 var map = L.map('map').setView([47.811195, 13.033229], 4);
 var markerList;
 var hotelData;
@@ -148,7 +148,7 @@ neg_cloud = new WordCloud('neg-cloud', 20);
 function onEachFeature(feature, layer) {
   if (feature.properties && feature.properties.name) {
       layer.bindPopup(feature.properties.name);
-      layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+Math.round(calculate_average(feature.properties)));
+      layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+ calculate_average(feature.properties).toFixed(1));
       // also update wordclouds
       // pos_cloud.setWords(['no']); unfortunately just this line crashes the page
 
@@ -188,13 +188,14 @@ var redIcon =  L.AwesomeMarkers.icon({
 function calculate_average(properties){
   var reviews = properties.reviews;
   var sum = 0;
+  let count = 0;
   for (let j = 0; j < reviews.length; j++) {
     var rev_date = Date.parse(reviews[j]['date']);
     if (rev_date < start_date || rev_date > end_date){continue;}
     sum += (reviews[j].rating);
+    count += 1;
 }
-console.log( sum / reviews.length);
-return sum / reviews.length
+return sum / count
 }
 
 //function for different markers
@@ -262,7 +263,7 @@ function update_clouds(hotel_name) {
   // console.log('update check 2');
 
   
-  
+  console.log(hotelData);
   var hotel_info = hotelData['features'].find(el => hotel_name.includes(el['properties']['name']));
   var reviews = hotel_info['properties']['reviews'];
 

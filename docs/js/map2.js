@@ -170,7 +170,7 @@ var zoom2 = d3.zoom()
 //draw_colors(current_hotel);
 svg2.call(zoom2);
 
-let hotels = g3.selectAll("*");
-for (const hotel of hotels) {
-    console.log(hotel);
-}
+//let hotels = g3.selectAll("*");
+//for (const hotel of hotels) {
+//    console.log(hotel);
+//}
