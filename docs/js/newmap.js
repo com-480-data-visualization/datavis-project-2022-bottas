@@ -148,7 +148,7 @@ neg_cloud = new WordCloud('neg-cloud', 20);
 function onEachFeature(feature, layer) {
   if (feature.properties && feature.properties.name) {
       layer.bindPopup(feature.properties.name);
-      layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+feature.properties.average_score);
+      layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+calculate_average(properties));
       // also update wordclouds
       // pos_cloud.setWords(['no']); unfortunately just this line crashes the page
 
