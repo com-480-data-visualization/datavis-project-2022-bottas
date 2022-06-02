@@ -182,11 +182,7 @@ figure embed {
 footer {
 	padding-bottom: 5rem;
 }
-#lineplot {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 #container {
     display: flex;
