@@ -22,6 +22,9 @@ var g3 = svg2.append("g");
 var current_hotel = "Doubletree by Hilton London Kensington";
 var current_transform = null;
 
+var div_hotel = d3.select("body").append("div")
+     .attr("class", "tooltip-hotel")
+     .style("opacity", 0);
 var hotel_name_to_lonlat = {};
 var hotel_locs = $.getJSON("./json_world_map/hotel_loc.json", function(markers) {
     g3.selectAll("myCircles")
@@ -37,10 +40,17 @@ var hotel_locs = $.getJSON("./json_world_map/hotel_loc.json", function(markers) 
         .attr("stroke-width", 3)
         .attr("fill-opacity", .4)
         .style('vector-effect', 'non-scaling-stroke')
-        .on('click', function() {
+        .on('click', function(d, i) {
+            let matrix = this.getScreenCTM().translate(+this.getAttribute("cx"),
+            +this.getAttribute("cy"));
             current_hotel = this.id;
             draw_lines(current_hotel);
             draw_colors(current_hotel);
+            div_hotel.html(current_hotel).style("opacity", 1)
+            .style("left", 
+                   (window.pageXOffset + matrix.e) + "px")
+            .style("top",
+                   (window.pageYOffset + matrix.f + 30) + "px");
         });
     markers.forEach(function(d) {
         hotel_name_to_lonlat[d.Hotel_Name] = [d.lng, d.lat];  
@@ -170,3 +180,8 @@ var zoom2 = d3.zoom()
 draw_lines(current_hotel);
 draw_colors(current_hotel);
 svg2.call(zoom2);
+
+let hotels = g3.selectAll("*");
+for (const hotel of hotels) {
+    console.log(hotel);
+}
