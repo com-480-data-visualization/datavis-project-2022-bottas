@@ -1,5 +1,5 @@
 /*New map.*/
-var hotel_data_filename = "./json_eu_map/hotel_data.geojson"; // change this to the aws eventually
+var hotel_data_filename = "https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson"; // change this to the aws eventually
 var map = L.map('map').setView([47.811195, 13.033229], 4);
 var markerList;
 var hotelData;
@@ -226,6 +226,8 @@ L.geoJSON(data,
   ).addTo(map);
 markerList = getVisibleMarkers();
 hotelData = whatever_the_f_this_is.responseJSON;
+console.log(whatever_the_f_this_is);
+console.log(whatever_the_f_this_is.responseJSON);
 // var intervalId = window.setInterval(function(){
 //   update_clouds();
 // }, 100);
