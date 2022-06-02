@@ -73,6 +73,8 @@ function brushended(event) {
 
     d3.select(this).call(brush.move, [start_date,end_date].map(x_scale));
 
-    update_clouds(_last_hotel);
+    if (_last_hotel != '') {
+        update_clouds(_last_hotel);   
+    }
     load();
 }
