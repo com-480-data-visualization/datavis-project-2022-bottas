@@ -298,8 +298,9 @@ document.getElementById('map-Europe').onclick = function changezoomEurope(){
 map.on('popupopen', function(e) {
   var popup_text = e.popup._content;
   let hotel_name = popup_text.split("<b>")[1].split("</b>")[1].trim();
-  update_clouds(hotel_name);
-  draw_lines(hotel_name);
-  draw_colors(hotel_name);
+  update_clouds(popup_text);
+  d3.select('[id="' + hotel_name + '"]').dispatch('click');
+  //draw_lines(hotel_name);
+  //draw_colors(hotel_name);
 });
 
