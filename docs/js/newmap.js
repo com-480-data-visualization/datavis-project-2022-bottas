@@ -144,28 +144,15 @@ pos_cloud = new WordCloud('pos-cloud', 20);
 neg_cloud = new WordCloud('neg-cloud', 20);
 
 
-
+// function for popups
 function onEachFeature(feature, layer) {
   if (feature.properties && feature.properties.name) {
       layer.bindPopup(feature.properties.name);
       layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+ calculate_average(feature.properties).toFixed(1));
-      // also update wordclouds
-      // pos_cloud.setWords(['no']); unfortunately just this line crashes the page
-
-
-    //   var posWords = [];
-    //   var negWords = [];
-    //   var reviews = feature.properties.reviews;
-    //   for (let j = 0; j < reviews.length; j++) {
-    //     posWords = posWords.concat(reviews[j].pos_review_words)
-    //     negWords = negWords.concat(reviews[j].neg_review_words)
-    // }
-    //   pos_cloud.setWords(posWords);
-    //   neg_cloud.setWords(negWords);
   }
 }
 
-//get icon
+//get icons for the markers
 var darkgreenIcon =  L.AwesomeMarkers.icon({
   markerColor: 'darkgreen'
 });
@@ -185,6 +172,7 @@ var redIcon =  L.AwesomeMarkers.icon({
   markerColor: 'red'
 });
 
+// calculateing average score on a specific time domain for a hotel (used for colors and tooltip)
 function calculate_average(properties){
   var reviews = properties.reviews;
   var sum = 0;
@@ -201,19 +189,19 @@ return sum / count
 //function for different markers
 function myStyle(feature, latlng) {
   var score = calculate_average(feature.properties);
-  if (score >= 9.2) {
+  if (score >= 9.5) {
     return L.marker(latlng,{ icon: darkgreenIcon  }); 
   } 
-  if (score >= 8.4) {
+  if (score >= 9) {
     return L.marker(latlng,{ icon: greenIcon  }); 
   } 
-  if (score >= 7.6) {
+  if (score >= 8.5) {
     return L.marker(latlng,{ icon: blueIcon  }); 
   } 
-  else if (score >= 6.8) {
+  else if (score >= 8.) {
     return L.marker(latlng,{ icon: orangeIcon  });
   } 
-  else if (score >= 6) {
+  else if (score >= 7.5) {
     return L.marker(latlng,{ icon: redIcon });
   } 
   else {
@@ -222,46 +210,31 @@ function myStyle(feature, latlng) {
 
 
 // load the lemmaized hotel reviews, then draw wordclouds from them
-// from aws: 
-// fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
-// local:
 function load(){
-fetch(hotel_data_filename)
-.then(function(response) {
-return response.json();
-})
-.then(function(data) {
-L.geoJSON(data,
-    {   
-      pointToLayer: myStyle,
-      onEachFeature: onEachFeature
-        
-    }
-  ).addTo(map);
-markerList = getVisibleMarkers();
-hotelData = whatever_the_f_this_is.responseJSON;
-console.log(whatever_the_f_this_is);
-console.log(whatever_the_f_this_is.responseJSON);
-// var intervalId = window.setInterval(function(){
-//   update_clouds();
-// }, 100);
-update_line("whole");
-});
+  fetch(hotel_data_filename)
+  .then(function(response) {
+  return response.json();
+  })
+  .then(function(data) {
+  L.geoJSON(data,
+      {   
+        pointToLayer: myStyle,
+        onEachFeature: onEachFeature
+          
+      }
+    ).addTo(map);
+  markerList = getVisibleMarkers();
+  hotelData = whatever_the_f_this_is.responseJSON;
+
+  update_line("whole");
+  });
 }
+// put it in function, because we load it for different timeframes again
 load();
 
-
+//updating wordclouds when clicking
 var _last_hotel = '';
 function update_clouds(hotel_name) {
-  // console.log('update called');
-  // var popups = document.getElementsByClassName('leaflet-popup-content');
-  // console.log(popups);
-  // if (popups.length != 1){return}
-  // console.log('update check 1');
-  // var hotel_name = popups[0].childNodes[1].data;
-  // if (_last_hotel == hotel_name){return}
-  // console.log('update check 2');
-
   
   console.log(hotelData);
   var hotel_info = hotelData['features'].find(el => hotel_name.includes(el['properties']['name']));
@@ -282,14 +255,14 @@ function update_clouds(hotel_name) {
   _last_hotel = hotel_name;
 }
 
-
+//credits for the map
 const credits = L.control.attribution().addTo(map);
 credits.addAttribution(
   `© <a href="https://www.mapbox.com/about/maps/">Mapbox</a> © <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a></strong>`
 );
 
 
-//default view on map
+//default views on map, functions used by buttons
 document.getElementById('map-Vienna').onclick = function changezoomVienna(){
     map.flyTo([48.210033, 16.363449], 12);
     update_line("Vienna");}
@@ -312,7 +285,7 @@ document.getElementById('map-Europe').onclick = function changezoomEurope(){
   map.flyTo([47.811195, 13.033229], 4);
   update_line("whole");}
 
-
+// get popup content 
 map.on('popupopen', function(e) {
   var popup_text = e.popup._content;
   let hotel_name = popup_text.split("<b>")[1].split("</b>")[1].trim();
@@ -321,7 +294,5 @@ map.on('popupopen', function(e) {
     update_clouds(popup_text); 
   } catch (error) {
   }
-  //draw_lines(hotel_name);
-  //draw_colors(hotel_name);
 });
 
