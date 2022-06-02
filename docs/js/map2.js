@@ -45,12 +45,11 @@ var hotel_locs = $.getJSON("./json_world_map/hotel_loc.json", function(markers) 
             +this.getAttribute("cy"));
             current_hotel = this.id;
             draw_lines(current_hotel);
-            draw_colors(current_hotel);
-            div_hotel.html(current_hotel).style("opacity", 1)
+            div_hotel.html("Current Hotel:  " + current_hotel).style("opacity", 1)
             .style("left", 
-                   (window.pageXOffset + matrix.e) + "px")
+                   (window.pageXOffset + matrix.e - this.getAttribute("cx")) + "px")
             .style("top",
-                   (window.pageYOffset + matrix.f + 30) + "px");
+                   (window.pageYOffset + matrix.f - this.getAttribute("cy")) + "px");
         });
     markers.forEach(function(d) {
         hotel_name_to_lonlat[d.Hotel_Name] = [d.lng, d.lat];  
