@@ -54,8 +54,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	<nav class="navbar navbar-blue default-color justify-content-between">
 			<h1>Seasonal trends in Hotel reviews</h1>
 			<!--<a onclick="showTutorial()">Tutorial</a>-->
-			<a href="https://github.com/com-480-data-visualization/datavis-project-2022-bottas">GitHub</a>
-			<a href="https://www.google.com/">Process Book</a>
+			<a href="https://github.com/com-480-data-visualization/datavis-project-2022-bottas">GitHub</a> &nbsp &nbsp
+			<a href="https://www.google.com/">Process Book</a> &nbsp &nbsp
 			<a href="https://www.google.com/">Screencast</a>
 	</nav>
 </header>
@@ -64,12 +64,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 <main class="width-limited">
 
 <h2>Hotel Map with reviews</h2>
-<p>In the following visualization you can see some of the most visited cities by tourists in Europe.</p>
+<p>In the following visualization you can see some of the hotels of the most visited cities by tourists in Europe. 
+	With the help of this webpage, you can gain insight in the reviews given by visitors to specific hotels, compare
+	hotels in the cities easily, watch their quality change during the course of time and see from where the visitors
+	are coming to the hotels. Try our interactive visualizations and enjoy!
+</p>
 <div class="globalrow">
 <div class="column">
 	<p>In this map you can see the hotels as markers on the map. By clicking on it, the name of the hotel and the average score 
 		given by reviewers shows up. The markers are color coded greens are the best hotels and dark reds are the worst. By 
-		clicking on the buttons below the map, you can choose where to zoom in the map.
+		clicking on the buttons below the map, you can choose where to zoom in the map. Can you find that bad hotel in Milan?
 	</p>
 	<div id='map' >
 		<a href="http://mapbox.com/about/maps" class='mapbox-logo' target="_blank">Mapbox</a>
@@ -92,7 +96,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 </div>
 <div class="column">
 	<p>
-		Feel free to choose a timeframe with a brush here:
+		By choosing a timeframe with a brush here, you will see the color of the markers change in the left. Also by
+		clicking on one of the cities, data from only that city will be shown. This can help you understand which 
+		seasons are the bests in those cities or compare the different cities. For example, you can see that in every
+		city there is a drop in the scores around December 2015.
 	</p>
 
 	<div id="lineplot" >
@@ -100,8 +107,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	</div>
 
 	<p>
-		When a hotel is chosen above, so you clicked on it in the map, you can see here the most common words in 
-		positive and negative reviews below.
+		When a hotel is chosen, so you clicked on it in the map, you can see here the most common words in 
+		positive and negative reviews below. If you changed the timeframe, the words during that time will be
+		taken into consideration.
 	</p>
 
 	<div class="row" id="wordclouds" class="column">
@@ -118,7 +126,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 	<h2>Connection Map</h2>
 
 	<p>
-		The world is connected, and so are we.
+		The world is connected, and so are we. By using this visualization you can explore the nationalities of 
+		the reviewers of different hotels. As you can see by clicking on the circles of hotels, a lot of reviewers are coming 
+		from the United Kingdom. 
 	</p>
 
 	<div id="container2"></div>
