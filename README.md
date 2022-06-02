@@ -27,7 +27,7 @@ Our website is reachable [here](https://com-480-data-visualization.github.io/dat
 
 ### Milestone 2 (03.06.)
 
-The process book of the final delivery can be found in the `processbook.pdf`.
+The process book of the final delivery can be found in the `milestone3_processbook.pdf`.
 The code for our website can be found in `docs`.
 Our website is reachable [here](https://com-480-data-visualization.github.io/datavis-project-2022-bottas/).
 
