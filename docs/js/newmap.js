@@ -185,9 +185,21 @@ var redIcon =  L.AwesomeMarkers.icon({
   markerColor: 'red'
 });
 
+function calculate_average(properties){
+  var reviews = properties.reviews;
+  var sum = 0;
+  for (let j = 0; j < reviews.length; j++) {
+    var rev_date = Date.parse(reviews[j]['date']);
+    if (rev_date < start_date || rev_date > end_date){continue;}
+    sum += (reviews[j].rating);
+}
+console.log( sum / reviews.length);
+return sum / reviews.length
+}
+
 //function for different markers
 function myStyle(feature, latlng) {
-  var score = feature.properties.average_score;
+  var score = calculate_average(feature.properties);
   if (score >= 9.2) {
     return L.marker(latlng,{ icon: darkgreenIcon  }); 
   } 
@@ -212,26 +224,28 @@ function myStyle(feature, latlng) {
 // from aws: 
 // fetch("https://dataviz-bottas.s3.eu-central-1.amazonaws.com/hotel_data.geojson")
 // local:
-fetch(hotel_data_filename)
-.then(function(response) {
-return response.json();
-})
-.then(function(data) {
-L.geoJSON(data,
-    {   
-      pointToLayer: myStyle,
-      onEachFeature: onEachFeature
-        
-    }
-  ).addTo(map);
-markerList = getVisibleMarkers();
-hotelData = whatever_the_f_this_is.responseJSON;
-// var intervalId = window.setInterval(function(){
-//   update_clouds();
-// }, 100);
-update_line("whole");
-});
-
+function load(){
+  fetch(hotel_data_filename)
+  .then(function(response) {
+  return response.json();
+  })
+  .then(function(data) {
+  L.geoJSON(data,
+      {   
+        pointToLayer: myStyle,
+        onEachFeature: onEachFeature
+          
+      }
+    ).addTo(map);
+  markerList = getVisibleMarkers();
+  hotelData = whatever_the_f_this_is.responseJSON;
+  // var intervalId = window.setInterval(function(){
+  //   update_clouds();
+  // }, 100);
+  update_line("whole");
+  });
+}
+load();
 
 
 var _last_hotel = '';
@@ -264,6 +278,7 @@ function update_clouds(hotel_name) {
 
   _last_hotel = hotel_name;
 }
+
 
 const credits = L.control.attribution().addTo(map);
 credits.addAttribution(
