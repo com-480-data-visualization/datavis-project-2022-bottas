@@ -296,8 +296,10 @@ document.getElementById('map-Europe').onclick = function changezoomEurope(){
 
 
 map.on('popupopen', function(e) {
-  var hotel_name = e.popup._content;
-  // console.log(hotel_name);
+  var popup_text = e.popup._content;
+  let hotel_name = popup_text.split("<b>")[1].split("</b>")[1].trim();
   update_clouds(hotel_name);
+  draw_lines(hotel_name);
+  draw_colors(hotel_name);
 });
 
