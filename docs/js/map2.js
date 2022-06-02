@@ -45,6 +45,7 @@ var hotel_locs = $.getJSON("./json_world_map/hotel_loc.json", function(markers) 
             +this.getAttribute("cy"));
             current_hotel = this.id;
             draw_lines(current_hotel);
+            draw_colors(current_hotel);
             div_hotel.html("Current Hotel:  " + current_hotel).style("opacity", 1)
             .style("left", 
                    (window.pageXOffset + matrix.e - this.getAttribute("cx")) + "px")
@@ -165,8 +166,8 @@ var zoom2 = d3.zoom()
           //g3.selectAll("circle").attr("r", 5/event.transform.k);
 });
 
-draw_lines(current_hotel);
-draw_colors(current_hotel);
+//draw_lines(current_hotel);
+//draw_colors(current_hotel);
 svg2.call(zoom2);
 
 let hotels = g3.selectAll("*");
