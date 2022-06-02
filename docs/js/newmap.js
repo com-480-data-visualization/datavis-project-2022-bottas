@@ -220,32 +220,38 @@ L.geoJSON(data,
   ).addTo(map);
 markerList = getVisibleMarkers();
 hotelData = whatever_the_f_this_is.responseJSON;
-// [pos, neg] = getWords([0]);
-// pos_cloud.setWords(pos);
-// neg_cloud.setWords(neg);
-var intervalId = window.setInterval(function(){
-  update_clouds();
-}, 100);
+// var intervalId = window.setInterval(function(){
+//   update_clouds();
+// }, 100);
 update_line("whole");
 });
 
 
 
 var _last_hotel = '';
-function update_clouds() {
-  var popups = document.getElementsByClassName('leaflet-popup-content');
-  if (popups.length != 1){return}
-  var hotel_name = popups[0].childNodes[1].data;
-  if (_last_hotel == hotel_name){return}
+function update_clouds(hotel_name) {
+  // console.log('update called');
+  // var popups = document.getElementsByClassName('leaflet-popup-content');
+  // console.log(popups);
+  // if (popups.length != 1){return}
+  // console.log('update check 1');
+  // var hotel_name = popups[0].childNodes[1].data;
+  // if (_last_hotel == hotel_name){return}
+  // console.log('update check 2');
 
+  
+  
   var hotel_info = hotelData['features'].find(el => hotel_name.includes(el['properties']['name']));
   var reviews = hotel_info['properties']['reviews'];
 
   posWords = [];
   negWords = [];
   for (let j = 0; j < reviews.length; j++) {
-      posWords = posWords.concat(reviews[j]['pos_review_words']);
-      negWords = negWords.concat(reviews[j]['neg_review_words']);
+    var rev_date = Date.parse(reviews[j]['date']);
+    if (rev_date < start_date || rev_date > end_date){continue;}
+
+    posWords = posWords.concat(reviews[j]['pos_review_words']);
+    negWords = negWords.concat(reviews[j]['neg_review_words']);
   }
   pos_cloud.setWords(posWords);
   neg_cloud.setWords(negWords);
@@ -281,3 +287,11 @@ document.getElementById('map-Barcelona').onclick = function changezoomBarcelona(
 document.getElementById('map-Europe').onclick = function changezoomEurope(){
   map.flyTo([47.811195, 13.033229], 4);
   update_line("whole");}
+
+
+map.on('popupopen', function(e) {
+  var hotel_name = e.popup._content;
+  // console.log(hotel_name);
+  update_clouds(hotel_name);
+});
+
