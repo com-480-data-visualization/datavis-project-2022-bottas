@@ -49,7 +49,7 @@ var hotel_locs = $.getJSON("./json_world_map/hotel_loc.json", function(markers) 
             .style("left", 
                    (window.pageXOffset + matrix.e - this.getAttribute("cx")) + "px")
             .style("top",
-                   (window.pageYOffset + matrix.f - this.getAttribute("cy")) + "px");
+                   (window.pageYOffset + matrix.f - this.getAttribute("cy") + 30) + "px");
         });
     markers.forEach(function(d) {
         hotel_name_to_lonlat[d.Hotel_Name] = [d.lng, d.lat];  
