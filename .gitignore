@@ -1,8 +1,8 @@
 *env
 *.csv
-!docs/lineplots/avg_scores_whole.csv
+
 .*
 !.gitattributes
-# this file is too fat
-!docs/json_eu_map/hotel_data.geojson
+!docs/data/json_eu_map/hotel_data.geojson
+!docs/data/lineplots/avg_scores_whole.csv
 scratch
