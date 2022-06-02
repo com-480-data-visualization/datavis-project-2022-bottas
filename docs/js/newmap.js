@@ -1,5 +1,5 @@
 /*New map.*/
-var hotel_data_filename = "json_eu_map/hotel_data.geojson"; // change this to the aws eventually
+var hotel_data_filename = "json_eu_map/hotel_data_new.geojson"; // change this to the aws eventually
 var map = L.map('map').setView([47.811195, 13.033229], 4);
 var markerList;
 var hotelData;
@@ -148,7 +148,7 @@ neg_cloud = new WordCloud('neg-cloud', 20);
 function onEachFeature(feature, layer) {
   if (feature.properties && feature.properties.name) {
       layer.bindPopup(feature.properties.name);
-      layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+feature.properties.avg_score);
+      layer.bindPopup("<b>Name:</b> "+feature.properties.name+" <b>Average Score:</b> "+feature.properties.average_score);
       // also update wordclouds
       // pos_cloud.setWords(['no']); unfortunately just this line crashes the page
 
@@ -166,6 +166,9 @@ function onEachFeature(feature, layer) {
 }
 
 //get icon
+var darkgreenIcon =  L.AwesomeMarkers.icon({
+  markerColor: 'darkgreen'
+});
 var blueIcon =  L.AwesomeMarkers.icon({
   markerColor: 'blue'
 });
@@ -184,22 +187,25 @@ var redIcon =  L.AwesomeMarkers.icon({
 
 //function for different markers
 function myStyle(feature, latlng) {
-var score = feature.properties.avg_score;
-if (score >= 9) {
-  return L.marker(latlng,{ icon: greenIcon  }); 
-} 
-if (score >= 8) {
-  return L.marker(latlng,{ icon: blueIcon  }); 
-} 
-else if (score >= 7) {
-  return L.marker(latlng,{ icon: orangeIcon  });
-} 
-else if (score >= 6) {
-  return L.marker(latlng,{ icon: redIcon });
-} 
-else {
-  return L.marker(latlng,{ icon: darkredIcon });
-}};
+  var score = feature.properties.average_score;
+  if (score >= 9.2) {
+    return L.marker(latlng,{ icon: darkgreenIcon  }); 
+  } 
+  if (score >= 8.4) {
+    return L.marker(latlng,{ icon: greenIcon  }); 
+  } 
+  if (score >= 7.6) {
+    return L.marker(latlng,{ icon: blueIcon  }); 
+  } 
+  else if (score >= 6.8) {
+    return L.marker(latlng,{ icon: orangeIcon  });
+  } 
+  else if (score >= 6) {
+    return L.marker(latlng,{ icon: redIcon });
+  } 
+  else {
+    return L.marker(latlng,{ icon: darkredIcon });
+  }};
 
 
 // load the lemmaized hotel reviews, then draw wordclouds from them
