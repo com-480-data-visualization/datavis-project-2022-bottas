@@ -4,15 +4,15 @@ This repository contains all Milestones for our Data Visualization project.
 Our webpage is hosted by GitHub Pages. It was implemented using JavaScript, d3 and leaflet.js.
 
 ### Repository structure
-.
-├── docs                    # Files for the webpage 
-├── data.zip                # Original data
-├── eda.ipynb               # EDA on the original data
-├── milestone1.pdf          # Report for 1st milestone
-├── milestone2.pdf          # Report for 2nd milestone
-├── processbook.pdf         # Process Book of final delivery
-├── .gitignore
-└── README.md
+    .
+    ├── docs                    # Files for the webpage 
+    ├── data.zip                # Original data
+    ├── eda.ipynb               # EDA on the original data
+    ├── milestone1.pdf          # Report for 1st milestone
+    ├── milestone2.pdf          # Report for 2nd milestone
+    ├── processbook.pdf         # Process Book of final delivery
+    ├── .gitignore
+    └── README.md
 
 ### Milestone 1 (08.04.)
 
