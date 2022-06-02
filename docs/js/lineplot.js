@@ -21,7 +21,7 @@ function update_line(city){
     svg_line.selectAll("path").remove();
     var lineplot_points = [];
 
-    d3.csv('lineplots/avg_scores_whole.csv').then(function(data){
+    d3.csv('./data/lineplots/avg_scores_whole.csv').then(function(data){
         for (const entry of data) {
             if (entry['Type'] == city) {
                 date = new Date(parseInt(entry['Review_Year']), parseInt(entry['Review_Month']), 15);

@@ -1,5 +1,5 @@
 /*New map.*/
-var hotel_data_filename = "json_eu_map/hotel_data.geojson"; // change this to the aws eventually
+var hotel_data_filename = "data/json_eu_map/hotel_data.geojson"; // change this to the aws eventually
 var map = L.map('map').setView([47.811195, 13.033229], 4);
 var markerList;
 var hotelData;
@@ -316,8 +316,11 @@ document.getElementById('map-Europe').onclick = function changezoomEurope(){
 map.on('popupopen', function(e) {
   var popup_text = e.popup._content;
   let hotel_name = popup_text.split("<b>")[1].split("</b>")[1].trim();
-  update_clouds(popup_text);
   d3.select('[id="' + hotel_name + '"]').dispatch('click');
+  try {
+    update_clouds(popup_text); 
+  } catch (error) {
+  }
   //draw_lines(hotel_name);
   //draw_colors(hotel_name);
 });

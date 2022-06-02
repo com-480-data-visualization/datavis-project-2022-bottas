@@ -26,7 +26,7 @@ var div_hotel = d3.select("body").append("div")
      .attr("class", "tooltip-hotel")
      .style("opacity", 0);
 var hotel_name_to_lonlat = {};
-var hotel_locs = $.getJSON("./json_world_map/hotel_loc.json", function(markers) {
+var hotel_locs = $.getJSON("./data/json_world_map/hotel_loc.json", function(markers) {
     g3.selectAll("myCircles")
     .data(markers)
     .join("circle")
@@ -58,7 +58,7 @@ var hotel_locs = $.getJSON("./json_world_map/hotel_loc.json", function(markers) 
 });
 
 // load and display the World
-d3.json("./json_world_map/countries-110m.json").then(function(topology) {
+d3.json("./data/json_world_map/countries-110m.json").then(function(topology) {
     g2.selectAll("path")
        .data(topojson.feature(topology, topology.objects.countries)
            .features)
@@ -71,7 +71,7 @@ d3.json("./json_world_map/countries-110m.json").then(function(topology) {
 // Create mapping of countries to their centroids
 // data from https://github.com/gavinr/world-countries-centroids
 var country_to_lonlat = {};
-d3.json("./json_world_map/countries.geojson").then(function(json) {
+d3.json("./data/json_world_map/countries.geojson").then(function(json) {
     json.features.forEach(function(d) {
         country_to_lonlat[d.properties.COUNTRY] = d.geometry.coordinates;
     }
@@ -84,7 +84,7 @@ var div = d3.select("body").append("div")
 
 
 function draw_lines(hotel) {
-d3.json('./json_world_map/reviewer_nationalities.json').then(function(json) {
+d3.json('./data/json_world_map/reviewer_nationalities.json').then(function(json) {
     svg2.selectAll('line').remove();
 
     current_hotel_lonlat = hotel_name_to_lonlat[hotel];
@@ -129,7 +129,7 @@ svg2.call(zoom2);
 };
 
 function draw_colors(hotel) {
-d3.json('./json_world_map/reviewer_nationalities.json').then(function(json) {
+d3.json('./data/json_world_map/reviewer_nationalities.json').then(function(json) {
     var myColor = d3.scaleSequential().domain([0,6]).interpolator(d3.interpolateViridis);    
         
                 g2.selectAll("path")
