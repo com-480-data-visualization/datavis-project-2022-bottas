@@ -40,6 +40,7 @@ var hotel_locs = $.getJSON("./json_world_map/hotel_loc.json", function(markers) 
         .on('click', function() {
             current_hotel = this.id;
             draw_lines(current_hotel);
+            draw_colors(current_hotel);
         });
     markers.forEach(function(d) {
         hotel_name_to_lonlat[d.Hotel_Name] = [d.lng, d.lat];  
@@ -53,7 +54,7 @@ d3.json("./json_world_map/countries-110m.json").then(function(topology) {
            .features)
        .enter().append("path")
        .attr("d", path2)
-       .attr('class', d => d.properties.name);
+       .attr('class', d => d.properties.name)
 });
 
 // Create mapping of countries to their centroids
@@ -79,6 +80,7 @@ d3.json('./json_world_map/reviewer_nationalities.json').then(function(json) {
 
     json.forEach(function(d) {
         if (d.Hotel_Name == hotel) {
+            //console.log(d);
             country_lonlat = country_to_lonlat[d.Reviewer_Nationality];
             svg2.append("line").attr("x1", projection2(country_lonlat)[0])
             .attr("y1", projection2(country_lonlat)[1])
@@ -114,6 +116,40 @@ d3.json('./json_world_map/reviewer_nationalities.json').then(function(json) {
 
 svg2.call(zoom2);
 };
+
+var dataObject;
+fetch('./json_world_map/countries-110m.json').then(response => dataObject = response.json());
+
+function draw_colors(hotel) {
+d3.json('./json_world_map/reviewer_nationalities.json').then(function(json) {
+    var myColor = d3.scaleSequential().domain([1,10]).interpolator(d3.interpolateViridis);    
+        json.forEach(function(d) {
+            if (d.Hotel_Name == hotel) {
+
+                d3.selectAll("path")
+                    .style("fill", /*() => "red"*/ function(d){
+                        console.log(dataObject);
+                        const value = dataObject.objects.find(function(item) { 
+                            return d.Reviewer_Nationality == item.countries.geometries.Name; }).Number;
+                            console.log(item);
+                        //var value = 1;
+                        return myColor(value);
+                        //return "red"
+                       })
+                };
+            });
+    });
+svg2.call(zoom2);
+};
+
+/*function color(d){
+    d3.json('./json_world_map/reviewer_nationalities.json').then(function(json) {
+        json.forEach(function(d){
+
+        })
+    })
+};*/
+
 // Zoom while keeping circles on same size
 var zoom2 = d3.zoom()
       .scaleExtent([1, 500])
@@ -132,4 +168,5 @@ var zoom2 = d3.zoom()
 });
 
 draw_lines(current_hotel);
+draw_colors(current_hotel);
 svg2.call(zoom2);
