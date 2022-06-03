@@ -140,8 +140,8 @@ class WordCloud {
   }
 }
 
-pos_cloud = new WordCloud('pos-cloud', 5);
-neg_cloud = new WordCloud('neg-cloud', 5);
+pos_cloud = new WordCloud('pos-cloud', 8);
+neg_cloud = new WordCloud('neg-cloud', 8);
 
 
 // function for popups
