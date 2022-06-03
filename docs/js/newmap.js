@@ -91,7 +91,7 @@ function getWords(cur_IDs){
 
 // wordclouds
 class WordCloud {
-  constructor(container_id, top_word_num){
+  constructor(container_id, top_word_num, color){
     
     var data = anychart.data.set([]);
     for (let _ = 0; _ < top_word_num; _++) {
@@ -100,6 +100,7 @@ class WordCloud {
     
     var chart = anychart.tagCloud(data);
     chart.container(container_id);
+    chart.normal().fill(color);
     chart.draw();
     
     // this.view = cloudview;
@@ -140,8 +141,8 @@ class WordCloud {
   }
 }
 
-pos_cloud = new WordCloud('pos-cloud', 8);
-neg_cloud = new WordCloud('neg-cloud', 8);
+pos_cloud = new WordCloud('pos-cloud', 8, 'green');
+neg_cloud = new WordCloud('neg-cloud', 8, 'red');
 
 
 // function for popups

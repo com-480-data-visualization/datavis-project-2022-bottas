@@ -163,3 +163,55 @@ var zoom2 = d3.zoom()
 });
 
 map_svg.call(zoom2);
+
+
+
+
+
+[height, width] = [50, 800]
+margin = ({top: 20, right: 40, bottom: 30, left: 40})
+
+colorScale = d3.scaleSequential().domain([0,6]).interpolator(d3.interpolateViridis)
+
+axisScale = d3.scaleLog()
+// .domain(colorScale.domain())
+.domain([1,3000])
+.range([margin.left, width - margin.right])
+
+axisBottom = g => g
+.attr("class", `x-axis`)
+.attr("transform", `translate(0,${height - margin.bottom})`)
+.call(d3.axisBottom(axisScale)
+.ticks(width / 80)
+      .tickSize(-barHeight))
+      
+      
+
+
+const svg = d3.select("#legend").append("svg")
+.attr("width", width)
+.attr("height", 50);
+const defs = svg.append("defs");
+
+const linearGradient = defs.append("linearGradient")
+    .attr("id", "linear-gradient");
+
+linearGradient.selectAll("stop")
+    .data(colorScale.ticks().map((t, i, n) => ({ offset: `${100*i/n.length}%`, color: colorScale(t) })))
+    .enter().append("stop")
+    .attr("offset", d => d.offset)
+    .attr("stop-color", d => d.color);
+
+barHeight = 50
+svg.append('g')
+    .attr("transform", `translate(0,${height - margin.bottom - barHeight})`)
+    .append("rect")
+    .attr('transform', `translate(${margin.left}, 0)`)
+    .attr("width", width - margin.right - margin.left)
+    .attr("height", barHeight)
+    .style("fill", "url(#linear-gradient)");
+
+svg.append('g')
+    .call(axisBottom);
+    
+    //   return svg.node();

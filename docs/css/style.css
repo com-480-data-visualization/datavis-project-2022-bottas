@@ -183,6 +183,12 @@ footer {
 	padding-bottom: 5rem;
 }
 
+.x-axis line, .x-axis path { stroke: #fff; }
+
+/* #neg-cloud {
+	border-width: 20px;
+	border-color: red;
+} */
 
 #container {
     display: flex;
