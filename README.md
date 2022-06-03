@@ -33,6 +33,6 @@ Our website is reachable [here](https://com-480-data-visualization.github.io/dat
 
 ### Using our webpage
 
-For the easy usage of the website, you can watch our screen cast or read the instructions on the webpage.
+For the easy usage of the website, you can watch our [screen cast](https://drive.google.com/file/d/1TrpqHvSlnI2slFXOIPrUl2xbD60iDSNY/view?usp=sharing) or read the instructions on the webpage.
 
 
